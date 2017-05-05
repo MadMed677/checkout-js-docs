@@ -561,6 +561,23 @@ html, body {
       border-top: 1px solid #000;
       border-bottom: 1px solid #404040;
     }
+
+    table {
+      margin-top: 20px;
+      width: 100%;
+
+      tr:last-child {
+        border-bottom: 1px solid #ccc;
+      }
+
+      tr:nth-child(odd)>td {
+        background-color: $code-bg;
+      }
+
+      tr:nth-child(even)>td {
+        background-color: $code-annotation-bg;
+      }
+    }
   }
 }
 
