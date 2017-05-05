@@ -85,7 +85,6 @@ checkout.generate({
 | `year*`             | Год истечения карты                      | {String} | Только числа. Длина 2 символа    |
 
 
-> Метод позвращает промис. <br/>
 > Пример валидных данных:
 
 ```js
@@ -110,14 +109,27 @@ checkout.generate({
 ```js
 checkout.generate({
     number: '4444 4444 4444 4441',
-    cvc: '12'
+    cvc: '12',
+    month: '12',
+    year: '20'
 })
     .then(response => {
         if (response.status_code === 400) {
             // validation_error
             const type = response.type;
 
-            // [{ code: 'invalid_expiry_month', message: 'Невалидное значение месяца' }, {...}, {...}, {...}]
+            /*
+                [
+                    {
+                        code: 'invalid_expiry_month',
+                        message: 'Невалидное значение месяца'
+                    },
+                    {
+                        code: 'invalid_cvc',
+                        message: 'Невалидное значение CVC'
+                    }
+                ]
+            */
             // За большими подробностями ошибок смотрите в секцию ошибок
             const params = response.params;
 
