@@ -4,11 +4,11 @@
 
 ```js
 {
-    type: <string>,
-    message: <?string>,
-    status_code: <number>,
-    code: <?string>,
-    params: <Array<object>>
+    type: string,
+    message: ?string,
+    status_code: number,
+    code: ?string,
+    params: Array<object>
 }
 ```
 
