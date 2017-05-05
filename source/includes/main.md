@@ -53,3 +53,75 @@ const checkout = YandexCheckout(123456, {
     language: string ('en' | 'ru') ['ru']
 }
 ```
+
+# Публичный API
+
+| Название метода | Описание               | Возвращаемые значения |
+| --------------- | ---------------------- | --------------------- |
+| `.generate`     | Генерация токена       | Promise{Object}       |
+| `.validate`     | Валидация данных карты | {Object} / Boolean    |
+
+## `.generate`
+
+Используется для генерации токена.
+
+```js
+checkout.generate({
+    number: '4444 4444 4444 4448',
+    cvc: '123',
+    month: '11',
+    year: '20'
+});
+```
+
+Параметры метода
+
+| Название параметра  | Описание                                 | Тип      | Валидация                        |
+| ------------------- | ---------------------------------------- | -------- | -------------------------------- |
+| `number*`           | Номер банковской карты                   | {String} | Только числа. Длина 16 символов  |
+| `fio`               | Имя владельца карты                      | {String} |                                  |
+| `cvc*`              | 3 или 4 значный код на обратной стороне  | {String} | Только числа. Длина 3, 4 символа |
+| `month*`            | Месяц истечения карты                    | {String} | Только числа. Длина 2 символа    |
+| `year*`             | Год истечения карты                      | {String} | Только числа. Длина 2 символа    |
+
+
+> Метод позвращает промис. <br/>
+> Пример валидных данных:
+
+```js
+checkout.generate({
+    number: '4444 4444 4444 4448',
+    cvc: '123',
+    month: '11',
+    year: '20'
+})
+    .then(response => {
+        if (response.status_code === 200) {
+            const { paymentToken } = response.result;
+
+            // eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...
+            return paymentToken;
+        }
+    });
+```
+
+> Пример не валидных данных:
+
+```js
+checkout.generate({
+    number: '4444 4444 4444 4441',
+    cvc: '12'
+})
+    .then(response => {
+        if (response.status_code === 400) {
+            // validation_error
+            const type = response.type;
+
+            // [{ code: 'invalid_expiry_month', message: 'Невалидное значение месяца' }, {...}, {...}, {...}]
+            // За большими подробностями ошибок смотрите в секцию ошибок
+            const params = response.params;
+
+            return response;
+        }
+    });
+```
