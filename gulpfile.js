@@ -22,6 +22,8 @@ var yaml = require('js-yaml');
 var renderer = new marked.Renderer();
 var COMPRESS = true;
 
+const destFolder = 'docs';
+
 renderer.code = function (code, language) {
   var highlighted = language ? highlight.highlight(language, code).value
                              : highlight.highlightAuto(code).value;
@@ -63,15 +65,15 @@ var getPageData = function() {
 };
 
 gulp.task('clean', function () {
-  return del(['build/*']);
+  return del(['docs/*']);
 });
 
 gulp.task('fonts', function() {
-  return gulp.src('./source/fonts/**/*').pipe(gulp.dest('build/fonts'));
+  return gulp.src('./source/fonts/**/*').pipe(gulp.dest('docs/fonts'));
 });
 
 gulp.task('images', function() {
-  return gulp.src('./source/images/**/*').pipe(gulp.dest('build/images'));
+  return gulp.src('./source/images/**/*').pipe(gulp.dest('docs/images'));
 });
 
 gulp.task('js', function() {
@@ -97,7 +99,7 @@ gulp.task('js', function() {
   return gulp.src(libs.concat(scripts))
     .pipe(concat('all.js'))
     .pipe(gulpif(COMPRESS, uglify()))
-    .pipe(gulp.dest('./build/javascripts'));
+    .pipe(gulp.dest('./docs/javascripts'));
 });
 
 gulp.task('sass', function () {
@@ -105,7 +107,7 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(rename({ extname: ''}))
     .pipe(gulpif(COMPRESS, cleanCSS()))
-    .pipe(gulp.dest('./build/stylesheets'));
+    .pipe(gulp.dest('./docs/stylesheets'));
 });
 
 gulp.task('highlightjs', function () {
@@ -114,7 +116,7 @@ gulp.task('highlightjs', function () {
   return gulp.src(path)
     .pipe(rename({ prefix: 'highlight-'}))
     .pipe(gulpif(COMPRESS, cleanCSS()))
-    .pipe(gulp.dest('./build/stylesheets'));
+    .pipe(gulp.dest('./docs/stylesheets'));
 });
 
 gulp.task('html', function () {
@@ -122,7 +124,7 @@ gulp.task('html', function () {
   return gulp.src('./source/*.html')
   	.pipe(ejs(data).on('error', gutil.log))
     .pipe(gulpif(COMPRESS, prettify({indent_size: 2})))
-  	.pipe(gulp.dest('./build'));
+  	.pipe(gulp.dest('./docs'));
 });
 
 gulp.task('NO_COMPRESS', function() {
@@ -138,10 +140,10 @@ gulp.task('serve', ['NO_COMPRESS', 'default'], function() {
   gulp.watch('./source/stylesheets/**/*', ['sass']);
   gulp.watch('./source/index.yml', ['highlightjs', 'js', 'html']);
 
-  var server = gls.static('build', 4567);
+  var server = gls.static('docs', 4567);
   server.start();
 
-  gulp.watch(['build/**/*'], function (file) {
+  gulp.watch(['docs/**/*'], function (file) {
     server.notify.apply(server, [file]);
   });
 

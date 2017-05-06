@@ -1,0 +1,388 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Yandex.Money CheckoutJS</title>
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <link href="stylesheets/highlight-atom-one-dark.css" rel="stylesheet" type="text/css" media="screen, print" />
+    <script src="javascripts/all.js" type="text/javascript"></script>
+  </head>
+
+  <body class="" data-languages="[]">
+    <a href="#" id="nav-button"> <span>
+        NAV
+        <img alt="undefined" class="undefined" src="images/navbar.png">
+      </span> </a>
+    <div class="tocify-wrapper"> <img alt="undefined" class="undefined" src="images/logo.svg">
+      <div class="lang-selector"> </div>
+      <div id="toc"> </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="yandex-checkout">Yandex Checkout</h1>
+        <p>
+          <a href="https://travis-ci.com/MadMed677/checkout-js"><img src="https://travis-ci.com/MadMed677/checkout-js.svg?token=JGyqoPse941Gzbw8Wg9k&amp;branch=master" alt="Build Status"></a>
+          <a href="https://codecov.io/gh/MadMed677/checkout-js"><img src="https://codecov.io/gh/MadMed677/checkout-js/branch/master/graph/badge.svg?token=kREGja9bnJ" alt="codecov"></a>
+          <a href="https://github.com/MadMed677/checkout-js/tags"><img src="https://img.shields.io/github/tag/MadMed677/checkout-js.svg?style=flat-square" alt="github tags"></a>
+        </p>
+        <p>Библиотека для токенизации банковской карты на стороне Яндекс.Денег.</p>
+        <h1 id="-">Инициализация</h1>
+        <blockquote>
+          <p>Подключаем скрипт на страницу</p>
+        </blockquote>
+        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>CheckoutJs</strong></p>
+        <h1 id="-">Аудентификация</h1>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>);</code></pre>
+        <blockquote>
+          <p>Где <strong>123456</strong> ваш секретный токен</p>
+        </blockquote>
+        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
+          информация, ни кто не должен о нем знать кроме вас.</p>
+        <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
+        <h1 id="-">Конфигурация</h1>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
+    <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>
+});</code></pre>
+        <p>Также вы можете передать второй аргумент, который будет отвечать за конфигурацию.</p>
+        <blockquote>
+          <p>Возможные значения:</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-comment">// язык вывода ответов</span>
+    language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>]
+}</code></pre>
+        <h1 id="-api">Публичный API</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Название метода</th>
+              <th>Описание</th>
+              <th>Возвращаемые значения</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.generate</code></td>
+              <td>Генерация токена</td>
+              <td>Promise{Object}</td>
+            </tr>
+            <tr>
+              <td><code>.validate</code></td>
+              <td>Валидация данных карты</td>
+              <td>{Object} / Boolean</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="-generate-"><code>.generate</code></h2>
+        <p>Используется для генерации токена.</p>
+        <pre class="highlight js"><code>checkout.generate({
+    <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4448'</span>,
+    <span class="hljs-attr">cvc</span>: <span class="hljs-string">'123'</span>,
+    <span class="hljs-attr">month</span>: <span class="hljs-string">'11'</span>,
+    <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
+});</code></pre>
+        <p>Параметры метода</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название параметра</th>
+              <th>Описание</th>
+              <th>Тип</th>
+              <th>Валидация</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>number*</code></td>
+              <td>Номер банковской карты</td>
+              <td>{String}</td>
+              <td>Только числа. Длина 16 символов</td>
+            </tr>
+            <tr>
+              <td><code>fio</code></td>
+              <td>Имя владельца карты</td>
+              <td>{String}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><code>cvc*</code></td>
+              <td>3 или 4 значный код на обратной стороне</td>
+              <td>{String}</td>
+              <td>Только числа. Длина 3, 4 символа</td>
+            </tr>
+            <tr>
+              <td><code>month*</code></td>
+              <td>Месяц истечения карты</td>
+              <td>{String}</td>
+              <td>Только числа. Длина 2 символа</td>
+            </tr>
+            <tr>
+              <td><code>year*</code></td>
+              <td>Год истечения карты</td>
+              <td>{String}</td>
+              <td>Только числа. Длина 2 символа</td>
+            </tr>
+          </tbody>
+        </table>
+        <blockquote>
+          <p>Пример валидных данных:</p>
+        </blockquote>
+        <pre class="highlight js"><code>checkout.generate({
+    <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4448'</span>,
+    <span class="hljs-attr">cvc</span>: <span class="hljs-string">'123'</span>,
+    <span class="hljs-attr">month</span>: <span class="hljs-string">'11'</span>,
+    <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
+})
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">200</span>) {
+            <span class="hljs-keyword">const</span> { paymentToken } = response.result;
+
+            <span class="hljs-comment">// eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...</span>
+            <span class="hljs-keyword">return</span> paymentToken;
+        }
+    });</code></pre>
+        <blockquote>
+          <p>Пример не валидных данных:</p>
+        </blockquote>
+        <pre class="highlight js"><code>checkout.generate({
+    <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4441'</span>,
+    <span class="hljs-attr">cvc</span>: <span class="hljs-string">'12'</span>,
+    <span class="hljs-attr">month</span>: <span class="hljs-string">'12'</span>,
+    <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
+})
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">400</span>) {
+            <span class="hljs-comment">// validation_error</span>
+            <span class="hljs-keyword">const</span> type = response.type;
+
+            <span class="hljs-comment">/*
+                [
+                    {
+                        code: 'invalid_expiry_month',
+                        message: 'Невалидное значение месяца'
+                    },
+                    {
+                        code: 'invalid_cvc',
+                        message: 'Невалидное значение CVC'
+                    }
+                ]
+            */</span>
+            <span class="hljs-comment">// За большими подробностями ошибок смотрите в секцию ошибок</span>
+            <span class="hljs-keyword">const</span> params = response.params;
+
+            <span class="hljs-keyword">return</span> response;
+        }
+    });</code></pre>
+        <h1 id="-">Ошибки</h1>
+        <blockquote>
+          <p>Формат выдачи ошибок</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-attr">type</span>: string,
+    <span class="hljs-attr">message</span>: ?string,
+    <span class="hljs-attr">status_code</span>: number,
+    <span class="hljs-attr">code</span>: ?string,
+    <span class="hljs-attr">params</span>: <span class="hljs-built_in">Array</span>&lt;object&gt;
+}</code></pre>
+        <blockquote>
+          <p>Пример 1. Произошла ошибка в подключении к серверу</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'api_connection_error'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Ошибка в подключении сервера'</span>,
+    <span class="hljs-attr">status_code</span>: <span class="hljs-number">402</span>,
+    <span class="hljs-attr">code</span>: <span class="hljs-string">'processing_error'</span>,
+    <span class="hljs-attr">params</span>: []
+}</code></pre>
+        <blockquote>
+          <p>Пример 2. Произошла ошибка валидации</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'validation_error'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-literal">undefined</span>,
+    <span class="hljs-attr">status_code</span>: <span class="hljs-number">400</span>,
+    <span class="hljs-attr">code</span>: <span class="hljs-literal">undefined</span>,
+    <span class="hljs-attr">params</span>: [
+        {
+            <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_number'</span>,
+            <span class="hljs-attr">message</span>: <span class="hljs-string">'Неверный номер карты'</span>
+        },
+        {
+            <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_expiry_month'</span>,
+            <span class="hljs-attr">message</span>: <span class="hljs-string">'Невалидное значение месяца'</span>
+        }
+    ]
+}</code></pre>
+        <h3 id="-">Статус коды ошибок</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Статус код</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>400</td>
+              <td>Ошибка валидации</td>
+            </tr>
+            <tr>
+              <td>401</td>
+              <td>Ошибка аудентификации</td>
+            </tr>
+            <tr>
+              <td>402</td>
+              <td>Ошибка подключения к API Яндекс.Кассы</td>
+            </tr>
+          </tbody>
+        </table>
+        <aside class="notice">This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>&#39;s
+          frontmatter. Files are included in the order listed.</aside>
+        <p>CheckoutJs поддерживает ошибки привычных HTTP запросов. Все коды, начинающиеся с <code>20*</code> сигнализируют об успешном платеже, <code>40*</code> о том, что что-то пошло не так.</p>
+        <h3 id="-">Типы ошибок</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Тип ошибки</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>authentication_error</td>
+              <td>Проблема с аудентификацией</td>
+            </tr>
+            <tr>
+              <td>api_connection_error</td>
+              <td>Не получилось установить соединение с Яндекс.Кассой</td>
+            </tr>
+            <tr>
+              <td>api_error</td>
+              <td>Произошла ошибка на стороне Яндекс.Кассы</td>
+            </tr>
+            <tr>
+              <td>card_error</td>
+              <td>Что-то не так с банковской карты</td>
+            </tr>
+            <tr>
+              <td>invalid_request_error</td>
+              <td>Неверные данные запроса</td>
+            </tr>
+            <tr>
+              <td>validation_error</td>
+              <td>Ошибка валидации, какое-то из полей карты введено не верно</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 id="-">Коды ошибок</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Код ошибки</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>invalid_number</td>
+              <td>Не валидный номер карты</td>
+            </tr>
+            <tr>
+              <td>invalid_expiry_month</td>
+              <td>Не верный месяц истечения карты</td>
+            </tr>
+            <tr>
+              <td>invalid_expiry_year</td>
+              <td>Не верный год истечения карты</td>
+            </tr>
+            <tr>
+              <td>invalid_cvc</td>
+              <td>Не верный cvc/cvv код</td>
+            </tr>
+            <tr>
+              <td>expired_card</td>
+              <td>Карта просрочена</td>
+            </tr>
+            <tr>
+              <td>card_declined</td>
+              <td>Карта отклонена</td>
+            </tr>
+            <tr>
+              <td>processing_error</td>
+              <td>Ошибка при проверке карты</td>
+            </tr>
+            <tr>
+              <td>missing</td>
+              <td>Какая-то ошибка</td>
+            </tr>
+          </tbody>
+        </table>
+        <h1 id="-">Токенизация</h1>
+        <blockquote>
+          <p>Формат выдачи успешно запроса</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-attr">type</span>: string,
+    <span class="hljs-attr">message</span>: ?string,
+    <span class="hljs-attr">status_code</span>: number,
+    <span class="hljs-attr">response</span>: object
+}</code></pre>
+        <blockquote>
+          <p>Пример. Токен успешно получен</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Токен для оплаты создан'</span>,
+    <span class="hljs-attr">status_code</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'payment_token_created'</span>,
+    <span class="hljs-attr">response</span>: {
+        <span class="hljs-attr">paymentToken</span>: <span class="hljs-string">'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'</span>
+    }
+}</code></pre>
+        <h3 id="-">Статус коды успеха</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Статус код</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>Токен успешно создан</td>
+            </tr>
+            <tr>
+              <td>202</td>
+              <td>Запрос принят к обработке, но результат его обработки еще неизвестен</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 id="-">Типы</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Тип</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>payment_token_created</td>
+              <td>Токен успешно создан</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="dark-box">
+        <div class="lang-selector"> </div>
+      </div>
+    </div>
+  </body>
+
+</html>
