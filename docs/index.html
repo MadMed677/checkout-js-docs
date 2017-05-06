@@ -44,6 +44,7 @@
         </blockquote>
         <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
           информация, ни кто не должен о нем знать кроме вас.</p>
+        <aside class="danger">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
         <h1 id="-">Конфигурация</h1>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
@@ -242,8 +243,6 @@
             </tr>
           </tbody>
         </table>
-        <aside class="notice">This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>&#39;s
-          frontmatter. Files are included in the order listed.</aside>
         <p>CheckoutJs поддерживает ошибки привычных HTTP запросов. Все коды, начинающиеся с <code>20*</code> сигнализируют об успешном платеже, <code>40*</code> о том, что что-то пошло не так.</p>
         <h3 id="-">Типы ошибок</h3>
         <table>
