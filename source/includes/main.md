@@ -5,7 +5,7 @@
 
 
 
-## Инициализация
+## <a name="yc-initialize">Инициализация</a>
 
 > Подключаем скрипт на страницу
 
@@ -19,7 +19,7 @@
 
 
 
-## Аудентификация
+## <a name="yc-authentication">Аудентификация</a>
 
 ```js
 const checkout = YandexCheckout(123456);
@@ -37,7 +37,7 @@ const checkout = YandexCheckout(123456);
 
 
 
-## Конфигурация
+## <a name="yc-configuration">Конфигурация</a>
 
 ```js
 const checkout = YandexCheckout(123456, {
@@ -56,7 +56,7 @@ const checkout = YandexCheckout(123456, {
 }
 ```
 
-## Публичный API
+## <a name="yc-public-api">Публичный API</a>
 
 | Название метода | Описание               | Возвращаемые значения |
 | --------------- | ---------------------- | --------------------- |

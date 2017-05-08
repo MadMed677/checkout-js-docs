@@ -31,13 +31,13 @@
           <a href="https://github.com/MadMed677/checkout-js/tags"><img src="https://img.shields.io/github/tag/MadMed677/checkout-js.svg?style=flat-square" alt="github tags"></a>
         </p>
         <p>Библиотека для токенизации банковской карты на стороне Яндекс.Денег.</p>
-        <h2 id="-">Инициализация</h2>
+        <h2 id="-a-name-yc-initialize-a-"><a name="yc-initialize">Инициализация</a></h2>
         <blockquote>
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
         <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckout</strong></p>
-        <h2 id="-">Аудентификация</h2>
+        <h2 id="-a-name-yc-authentication-a-"><a name="yc-authentication">Аудентификация</a></h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
           <p>Где <strong>123456</strong> ваш секретный токен</p>
@@ -46,7 +46,7 @@
           информация, ни кто не должен о нем знать кроме вас.</p>
         <aside class="warning">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
-        <h2 id="-">Конфигурация</h2>
+        <h2 id="-a-name-yc-configuration-a-"><a name="yc-configuration">Конфигурация</a></h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
     <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>
 });</code></pre>
@@ -58,7 +58,7 @@
     <span class="hljs-comment">// язык вывода ответов</span>
     language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>]
 }</code></pre>
-        <h2 id="-api">Публичный API</h2>
+        <h2 id="-a-name-yc-public-api-api-a-"><a name="yc-public-api">Публичный API</a></h2>
         <table>
           <thead>
             <tr>
@@ -180,7 +180,7 @@
             <span class="hljs-keyword">return</span> response;
         }
     });</code></pre>
-        <h2 id="-">Ошибки</h2>
+        <h2 id="-a-name-yc-errors-a-"><a name="yc-errors">Ошибки</a></h2>
         <blockquote>
           <p>Формат выдачи ошибок</p>
         </blockquote>
@@ -322,7 +322,7 @@
             </tr>
           </tbody>
         </table>
-        <h2 id="-">Токенизация</h2>
+        <h2 id="-a-name-yc-success-a-"><a name="yc-success">Токенизация</a></h2>
         <blockquote>
           <p>Формат выдачи успешно запроса</p>
         </blockquote>
@@ -445,7 +445,6 @@
         <p>Открытие созданной формы.</p>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 
-checkout.init();
 checkout.open();</code></pre>
         <h2 id="-close-"><code>.close</code></h2>
         <p>Скрытие созданной формы</p>
@@ -464,12 +463,12 @@ checkout.open();</code></pre>
             <tr>
               <td>yc_error</td>
               <td>Произошла ошибка любого рода</td>
-              <td>Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS</td>
+              <td><a href="#yc-errors">Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS</a></td>
             </tr>
             <tr>
               <td>yc_success</td>
               <td>Токен успешно создан</td>
-              <td>Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS</td>
+              <td><a href="#yc-success">Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS</a></td>
             </tr>
           </tbody>
         </table>

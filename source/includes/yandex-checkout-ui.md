@@ -78,7 +78,6 @@ const checkout = YandexCheckout(123456, {
 ```js
 const checkout = YandexCheckoutUI(123456);
 
-checkout.init();
 checkout.open();
 ```
 
@@ -97,8 +96,8 @@ checkout.close();
 
 | Название события | Описание                     | Возвращаемые значения |
 | ---------------- | ---------------------------- | --------------------- |
-| yc_error         | Произошла ошибка любого рода | Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS |
-| yc_success       | Токен успешно создан         | Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS |
+| yc_error         | Произошла ошибка любого рода | [Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS](#yc-errors) |
+| yc_success       | Токен успешно создан         | [Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS](#yc-success) |
 
 > Пример с ошибкой
 
