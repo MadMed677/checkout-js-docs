@@ -24,7 +24,7 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="yandex-checkout">Yandex Checkout</h1>
+        <h1 id="yandex-checkout-js">Yandex Checkout JS</h1>
         <p>
           <a href="https://travis-ci.com/MadMed677/checkout-js"><img src="https://travis-ci.com/MadMed677/checkout-js.svg?token=JGyqoPse941Gzbw8Wg9k&amp;branch=master" alt="Build Status"></a>
           <a href="https://codecov.io/gh/MadMed677/checkout-js"><img src="https://codecov.io/gh/MadMed677/checkout-js/branch/master/graph/badge.svg?token=kREGja9bnJ" alt="codecov"></a>
@@ -36,7 +36,7 @@
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
         <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>CheckoutJs</strong></p>
+        <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckout</strong></p>
         <h1 id="-">Аудентификация</h1>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
@@ -377,6 +377,23 @@
             </tr>
           </tbody>
         </table>
+        <h1 id="yandex-checkout-ui">Yandex Checkout UI</h1>
+        <p>UI библиотека, для отрисовки банковской карты на странице пользователя, которая работает по API Yandex.CheckoutJS</p>
+        <h1 id="-">Инициализация</h1>
+        <blockquote>
+          <p>Подключаем скрипт на страницу</p>
+        </blockquote>
+        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout-ui.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <p>Библиотека подключается <strong>только</strong> через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckoutUI</strong></p>
+        <h1 id="-">Аудентификация</h1>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkoutUI = YandexCheckoutUI(<span class="hljs-number">123456</span>);</code></pre>
+        <blockquote>
+          <p>Где <strong>123456</strong> ваш секретный токен</p>
+        </blockquote>
+        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
+          информация, ни кто не должен о нем знать кроме вас.</p>
+        <aside class="warning">Не показывайте свой токен ни кому!</aside>
+        <p>После этого вы можете создать инстанс от YandexCheckoutUI и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
       </div>
       <div class="dark-box">
         <div class="lang-selector"> </div>
