@@ -400,6 +400,36 @@
     <span class="hljs-attr">domSelector</span>: <span class="hljs-string">'.my-selector'</span>
 });</code></pre>
         <p>Также вы можете передать второй аргумент, который будет отвечать за конфигурацию.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название параметра</th>
+              <th>Описание</th>
+              <th>Значение / Тип</th>
+              <th>Значене по умолчанию</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>language</td>
+              <td>язык ответов</td>
+              <td>&#39;en&#39; / &#39;ru&#39;</td>
+              <td>&#39;ru&#39;</td>
+            </tr>
+            <tr>
+              <td>domSelector</td>
+              <td>селектор, куда будет отрендерена форма</td>
+              <td>string</td>
+              <td>document.body</td>
+            </tr>
+            <tr>
+              <td>amount</td>
+              <td>стоимость</td>
+              <td>number</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
         <blockquote>
           <p>Возможные значения:</p>
         </blockquote>
@@ -408,7 +438,10 @@
     language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>],
 
     <span class="hljs-comment">// селектор, куда будет отрендерена форма с оплатой</span>
-    domSelector: string [<span class="hljs-string">'document.body'</span>]
+    domSelector: string [<span class="hljs-string">'document.body'</span>],
+
+    <span class="hljs-comment">// стоимость, которую нужно показать на форме</span>
+    amount: string | number [<span class="hljs-string">'0'</span>]
 }</code></pre>
         <h2 id="-api">Публичный API</h2>
         <table>
