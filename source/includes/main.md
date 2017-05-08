@@ -98,7 +98,7 @@ checkout.generate({
 })
     .then(response => {
         if (response.status_code === 200) {
-            const { paymentToken } = response.result;
+            const { paymentToken } = respons;
 
             // eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...
             return paymentToken;

@@ -142,7 +142,7 @@
 })
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
         <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">200</span>) {
-            <span class="hljs-keyword">const</span> { paymentToken } = response.result;
+            <span class="hljs-keyword">const</span> { paymentToken } = respons;
 
             <span class="hljs-comment">// eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...</span>
             <span class="hljs-keyword">return</span> paymentToken;
@@ -396,7 +396,8 @@
         <p>После этого вы можете создать инстанс от YandexCheckoutUI и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-">Конфигурация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
-    <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>
+    <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>,
+    <span class="hljs-attr">domSelector</span>: <span class="hljs-string">'.my-selector'</span>
 });</code></pre>
         <p>Также вы можете передать второй аргумент, который будет отвечать за конфигурацию.</p>
         <blockquote>
@@ -404,7 +405,10 @@
         </blockquote>
         <pre class="highlight js"><code>{
     <span class="hljs-comment">// язык вывода ответов</span>
-    language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>]
+    language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>],
+
+    <span class="hljs-comment">// селектор, куда будет отрендерена форма с оплатой</span>
+    domSelector: string [<span class="hljs-string">'document.body'</span>]
 }</code></pre>
         <h2 id="-api">Публичный API</h2>
         <table>
@@ -418,12 +422,6 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>.init</code></td>
-              <td>Инициализация формы</td>
-              <td>{string}</td>
-              <td>{void}</td>
-            </tr>
-            <tr>
               <td><code>.open</code></td>
               <td>Открытие формы</td>
               <td></td>
@@ -435,27 +433,11 @@
               <td></td>
               <td>{void}</td>
             </tr>
-          </tbody>
-        </table>
-        <h2 id="-init-"><code>.init</code></h2>
-        <p>Инициализация формы для оплаты. Данный вызов обязателен.</p>
-        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
-
-checkout.init(<span class="hljs-string">'.yandex-wrapper'</span>);</code></pre>
-        <p>Параметры метода</p>
-        <table>
-          <thead>
             <tr>
-              <th>Описание</th>
-              <th>Тип</th>
-              <th>Значение по умолчанию</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Селектор, в который вы хотите, чтобы поместилась библиотека</td>
-              <td>{string}</td>
-              <td>document.body</td>
+              <td><code>.on</code></td>
+              <td>Подписка на события</td>
+              <td>&#39;yc_error&#39;, &#39;yc_success&#39;</td>
+              <td>{void}</td>
             </tr>
           </tbody>
         </table>
@@ -467,7 +449,70 @@ checkout.init();
 checkout.open();</code></pre>
         <h2 id="-close-"><code>.close</code></h2>
         <p>Скрытие созданной формы</p>
-        <pre class="highlight js"><code>checkout.close();</code></pre> </div>
+        <pre class="highlight js"><code>checkout.close();</code></pre>
+        <h2 id="-on-"><code>.on</code></h2>
+        <p>Подписка на события. Есть 2 варианта, на событие ошибки <code>yc_error</code> или событие успеха <code>yc_success</code>.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название события</th>
+              <th>Описание</th>
+              <th>Возвращаемые значения</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>yc_error</td>
+              <td>Произошла ошибка любого рода</td>
+              <td>Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS</td>
+            </tr>
+            <tr>
+              <td>yc_success</td>
+              <td>Токен успешно создан</td>
+              <td>Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS</td>
+            </tr>
+          </tbody>
+        </table>
+        <blockquote>
+          <p>Пример с ошибкой</p>
+        </blockquote>
+        <pre class="highlight js"><code>checkout.on(<span class="hljs-string">'yc_error'</span>, response =&gt; {
+    <span class="hljs-comment">/*
+    {
+        type: 'validation_error',
+        message: undefined,
+        status_code: 400,
+        code: undefined,
+        params: [
+            {
+                code: 'invalid_number',
+                message: 'Неверный номер карты'
+            },
+            {
+                code: 'invalid_expiry_month',
+                message: 'Невалидное значение месяца'
+            }
+        ]
+    }
+    */</span>
+    <span class="hljs-built_in">console</span>.log(response);
+});</code></pre>
+        <blockquote>
+          <p>Пример с успехом</p>
+        </blockquote>
+        <pre class="highlight js"><code>checkout.on(<span class="hljs-string">'yc_success'</span>, response =&gt; {
+    <span class="hljs-comment">/*
+    {
+        message: 'Токен для оплаты создан',
+        status_code: 200,
+        type: 'payment_token_created',
+        response: {
+            paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+        }
+    }
+    */</span>
+    <span class="hljs-built_in">console</span>.log(response);
+});</code></pre> </div>
       <div class="dark-box">
         <div class="lang-selector"> </div>
       </div>

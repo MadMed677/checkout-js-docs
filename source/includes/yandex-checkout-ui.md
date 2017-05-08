@@ -44,7 +44,8 @@ const checkout = YandexCheckoutUI(123456);
 
 ```js
 const checkout = YandexCheckout(123456, {
-    language: 'en'
+    language: 'en',
+    domSelector: '.my-selector'
 });
 ```
 
@@ -55,34 +56,20 @@ const checkout = YandexCheckout(123456, {
 ```js
 {
     // язык вывода ответов
-    language: string ('en' | 'ru') ['ru']
+    language: string ('en' | 'ru') ['ru'],
+    
+    // селектор, куда будет отрендерена форма с оплатой
+    domSelector: string ['document.body']
 }
 ```
 
 ## Публичный API
 
-| Название метода | Описание               | Принимаемые значения | Возвращаемые значения |
-| --------------- | ---------------------- | -------------------- | --------------------- |
-| `.init`         | Инициализация формы    | {string}             | {void}                |
-| `.open`         | Открытие формы         |                      | {void}                |
-| `.close`        | Закрытие формы         |                      | {void}                |
-
-## `.init`
-
-Инициализация формы для оплаты. Данный вызов обязателен.
-
-```js
-const checkout = YandexCheckoutUI(123456);
-
-checkout.init('.yandex-wrapper');
-```
-
-Параметры метода
-
-| Описание                                                    | Тип      | Значение по умолчанию |
-| ----------------------------------------------------------- | -------- | --------------------- |
-| Селектор, в который вы хотите, чтобы поместилась библиотека | {string} | document.body         |
-
+| Название метода | Описание               | Принимаемые значения     | Возвращаемые значения |
+| --------------- | ---------------------- | ------------------------ | --------------------- |
+| `.open`         | Открытие формы         |                          | {void}                |
+| `.close`        | Закрытие формы         |                          | {void}                |
+| `.on`           | Подписка на события    | 'yc_error', 'yc_success' | {void}                |
 
 ## `.open`
 
@@ -101,4 +88,58 @@ checkout.open();
 
 ```js
 checkout.close();
+```
+
+## `.on`
+
+Подписка на события.
+Есть 2 варианта, на событие ошибки `yc_error` или событие успеха `yc_success`.
+
+| Название события | Описание                     | Возвращаемые значения |
+| ---------------- | ---------------------------- | --------------------- |
+| yc_error         | Произошла ошибка любого рода | Объект, точно такого же вида, что и ошибка в Yandex.CheckoutJS |
+| yc_success       | Токен успешно создан         | Объект, точно такого же вида, что и успешный ответ в Yandex.CheckoutJS |
+
+> Пример с ошибкой
+
+```js
+checkout.on('yc_error', response => {
+    /*
+    {
+        type: 'validation_error',
+        message: undefined,
+        status_code: 400,
+        code: undefined,
+        params: [
+            {
+                code: 'invalid_number',
+                message: 'Неверный номер карты'
+            },
+            {
+                code: 'invalid_expiry_month',
+                message: 'Невалидное значение месяца'
+            }
+        ]
+    }
+    */
+    console.log(response);
+});
+```
+
+> Пример с успехом
+
+```js
+checkout.on('yc_success', response => {
+    /*
+    {
+        message: 'Токен для оплаты создан',
+        status_code: 200,
+        type: 'payment_token_created',
+        response: {
+            paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+        }
+    }
+    */
+    console.log(response);
+});
 ```
