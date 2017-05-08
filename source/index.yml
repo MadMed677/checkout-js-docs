@@ -4,5 +4,6 @@ includes:
   - main
   - _errors
   - _succeded
+  - yandex-checkout-ui
 
 highlight_theme: atom-one-dark

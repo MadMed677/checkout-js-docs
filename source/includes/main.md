@@ -1,4 +1,4 @@
-# Yandex Checkout
+# Yandex Checkout JS
 [![Build Status](https://travis-ci.com/MadMed677/checkout-js.svg?token=JGyqoPse941Gzbw8Wg9k&branch=master)](https://travis-ci.com/MadMed677/checkout-js) [![codecov](https://codecov.io/gh/MadMed677/checkout-js/branch/master/graph/badge.svg?token=kREGja9bnJ)](https://codecov.io/gh/MadMed677/checkout-js) [![github tags](https://img.shields.io/github/tag/MadMed677/checkout-js.svg?style=flat-square)](https://github.com/MadMed677/checkout-js/tags)
 
 Библиотека для токенизации банковской карты на стороне Яндекс.Денег.
@@ -14,8 +14,8 @@
 ```
 
 Библиотека подключается только через CDN.
-Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна
-под именем **CheckoutJs**
+Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной
+области видимости библиотека будет доступна под именем **YandexCheckout**
 
 
 
