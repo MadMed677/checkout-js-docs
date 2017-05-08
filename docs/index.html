@@ -31,13 +31,13 @@
           <a href="https://github.com/MadMed677/checkout-js/tags"><img src="https://img.shields.io/github/tag/MadMed677/checkout-js.svg?style=flat-square" alt="github tags"></a>
         </p>
         <p>Библиотека для токенизации банковской карты на стороне Яндекс.Денег.</p>
-        <h1 id="-">Инициализация</h1>
+        <h2 id="-">Инициализация</h2>
         <blockquote>
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
         <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckout</strong></p>
-        <h1 id="-">Аудентификация</h1>
+        <h2 id="-">Аудентификация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
           <p>Где <strong>123456</strong> ваш секретный токен</p>
@@ -46,7 +46,7 @@
           информация, ни кто не должен о нем знать кроме вас.</p>
         <aside class="warning">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
-        <h1 id="-">Конфигурация</h1>
+        <h2 id="-">Конфигурация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
     <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>
 });</code></pre>
@@ -58,7 +58,7 @@
     <span class="hljs-comment">// язык вывода ответов</span>
     language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>]
 }</code></pre>
-        <h1 id="-api">Публичный API</h1>
+        <h2 id="-api">Публичный API</h2>
         <table>
           <thead>
             <tr>
@@ -180,7 +180,7 @@
             <span class="hljs-keyword">return</span> response;
         }
     });</code></pre>
-        <h1 id="-">Ошибки</h1>
+        <h2 id="-">Ошибки</h2>
         <blockquote>
           <p>Формат выдачи ошибок</p>
         </blockquote>
@@ -322,7 +322,7 @@
             </tr>
           </tbody>
         </table>
-        <h1 id="-">Токенизация</h1>
+        <h2 id="-">Токенизация</h2>
         <blockquote>
           <p>Формат выдачи успешно запроса</p>
         </blockquote>
@@ -379,14 +379,14 @@
         </table>
         <h1 id="yandex-checkout-ui">Yandex Checkout UI</h1>
         <p>UI библиотека, для отрисовки банковской карты на странице пользователя, которая работает по API Yandex.CheckoutJS</p>
-        <h1 id="-">Инициализация</h1>
+        <h2 id="-">Инициализация</h2>
         <blockquote>
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
         <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout-ui.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>Библиотека подключается <strong>только</strong> через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckoutUI</strong></p>
-        <h1 id="-">Аудентификация</h1>
-        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkoutUI = YandexCheckoutUI(<span class="hljs-number">123456</span>);</code></pre>
+        <h2 id="-">Аудентификация</h2>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
           <p>Где <strong>123456</strong> ваш секретный токен</p>
         </blockquote>
@@ -394,7 +394,76 @@
           информация, ни кто не должен о нем знать кроме вас.</p>
         <aside class="warning">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckoutUI и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
-      </div>
+        <h2 id="-">Конфигурация</h2>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
+    <span class="hljs-attr">language</span>: <span class="hljs-string">'en'</span>
+});</code></pre>
+        <p>Также вы можете передать второй аргумент, который будет отвечать за конфигурацию.</p>
+        <blockquote>
+          <p>Возможные значения:</p>
+        </blockquote>
+        <pre class="highlight js"><code>{
+    <span class="hljs-comment">// язык вывода ответов</span>
+    language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>]
+}</code></pre>
+        <h2 id="-api">Публичный API</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Название метода</th>
+              <th>Описание</th>
+              <th>Возвращаемые значения</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.init</code></td>
+              <td>Инициализация формы</td>
+              <td>void</td>
+            </tr>
+            <tr>
+              <td><code>.open</code></td>
+              <td>Открытие формы</td>
+              <td>void</td>
+            </tr>
+            <tr>
+              <td><code>.close</code></td>
+              <td>Закрытие формы</td>
+              <td>void</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="-init-"><code>.init</code></h2>
+        <p>Инициализация формы для оплаты. Данный вызов обязателен.</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+
+checkout.init(<span class="hljs-string">'.yandex-wrapper'</span>);</code></pre>
+        <p>Параметры метода</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Описание</th>
+              <th>Тип</th>
+              <th>Значение по умолчанию</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Селектор, в который вы хотите, чтобы поместилась библиотека</td>
+              <td>{string}</td>
+              <td>document.body</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="-open-"><code>.open</code></h2>
+        <p>Открытие созданной формы.</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+
+checkout.init();
+checkout.open();</code></pre>
+        <h2 id="-close-"><code>.close</code></h2>
+        <p>Скрытие созданной формы</p>
+        <pre class="highlight js"><code>checkout.close();</code></pre> </div>
       <div class="dark-box">
         <div class="lang-selector"> </div>
       </div>
