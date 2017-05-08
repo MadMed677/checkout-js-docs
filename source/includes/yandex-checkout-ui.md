@@ -22,7 +22,7 @@ UI библиотека, для отрисовки банковской карт
 ## Аудентификация
 
 ```js
-const checkout = YandexCheckoutUI(123456);
+const $checkout = YandexCheckoutUI(123456);
 ```
 
 > Где **123456** ваш секретный токен
@@ -36,16 +36,17 @@ const checkout = YandexCheckoutUI(123456);
 <aside class="warning">Не показывайте свой токен ни кому!</aside>
 
 После этого вы можете создать инстанс от YandexCheckoutUI и использовать
-**checkout** для генерации токена по данным банковской карты.
+**$checkout** для генерации токена по данным банковской карты.
 
 
 
 ## Конфигурация
 
 ```js
-const checkout = YandexCheckout(123456, {
+const $checkout = YandexCheckoutUI(123456, {
     language: 'en',
-    domSelector: '.my-selector'
+    domSelector: '.my-selector',
+    amount: 99.99
 });
 ```
 
@@ -85,9 +86,9 @@ const checkout = YandexCheckout(123456, {
 Открытие созданной формы.
 
 ```js
-const checkout = YandexCheckoutUI(123456);
-
-checkout.open();
+const $checkout = YandexCheckoutUI(123456);
+$checkout
+.open();
 ```
 
 ## `.close`
@@ -95,7 +96,7 @@ checkout.open();
 Скрытие созданной формы
 
 ```js
-checkout.close();
+$checkout.close();
 ```
 
 ## `.on`
@@ -111,7 +112,7 @@ checkout.close();
 > Пример с ошибкой
 
 ```js
-checkout.on('yc_error', response => {
+$checkout.on('yc_error', response => {
     /*
     {
         type: 'validation_error',
@@ -137,7 +138,7 @@ checkout.on('yc_error', response => {
 > Пример с успехом
 
 ```js
-checkout.on('yc_success', response => {
+$checkout.on('yc_success', response => {
     /*
     {
         message: 'Токен для оплаты создан',
