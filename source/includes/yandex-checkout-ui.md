@@ -69,7 +69,7 @@ const $checkout = YandexCheckoutUI(123456, {
     domSelector: string ['document.body'],
     
     // стоимость, которую нужно показать на форме
-    amount: string | number ['0']
+    amount: number ['0']
 }
 ```
 
@@ -87,8 +87,7 @@ const $checkout = YandexCheckoutUI(123456, {
 
 ```js
 const $checkout = YandexCheckoutUI(123456);
-$checkout
-.open();
+$checkout.open();
 ```
 
 ## `.close`
@@ -96,6 +95,7 @@ $checkout
 Скрытие созданной формы
 
 ```js
+const $checkout = YandexCheckoutUI(123456);
 $checkout.close();
 ```
 

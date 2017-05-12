@@ -189,7 +189,10 @@
     <span class="hljs-attr">message</span>: ?string,
     <span class="hljs-attr">status_code</span>: number,
     <span class="hljs-attr">code</span>: ?string,
-    <span class="hljs-attr">params</span>: <span class="hljs-built_in">Array</span>&lt;object&gt;
+    <span class="hljs-attr">params</span>: <span class="hljs-built_in">Array</span>&lt;{
+        <span class="hljs-attr">code</span>: string,
+        <span class="hljs-attr">message</span>: string
+    }&gt;
 }</code></pre>
         <blockquote>
           <p>Пример 1. Произошла ошибка в подключении к серверу</p>
@@ -241,9 +244,18 @@
               <td>402</td>
               <td>Ошибка подключения к API Яндекс.Кассы</td>
             </tr>
+            <tr>
+              <td>404</td>
+              <td>Запрашиваемый ресурс не найден</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Непредвиденная ошибка</td>
+            </tr>
           </tbody>
         </table>
-        <p>CheckoutJs поддерживает ошибки привычных HTTP запросов. Все коды, начинающиеся с <code>20*</code> сигнализируют об успешном платеже, <code>40*</code> о том, что что-то пошло не так.</p>
+        <p>CheckoutJs поддерживает ошибки привычных HTTP запросов. Все коды, начинающиеся с <code>20*</code> сигнализируют об успешном платеже, <code>40*</code> о том, что что-то пошло не так. <code>50*</code> о том, что произошла какая-то непредвиденная
+          ошибка у Яндекс.Кассы.</p>
         <h3 id="-">Типы ошибок</h3>
         <table>
           <thead>
@@ -318,7 +330,7 @@
             </tr>
             <tr>
               <td>missing</td>
-              <td>Какая-то ошибка</td>
+              <td>Непредвиденная ошибка</td>
             </tr>
           </tbody>
         </table>
@@ -442,7 +454,7 @@
     domSelector: string [<span class="hljs-string">'document.body'</span>],
 
     <span class="hljs-comment">// стоимость, которую нужно показать на форме</span>
-    amount: string | number [<span class="hljs-string">'0'</span>]
+    amount: number [<span class="hljs-string">'0'</span>]
 }</code></pre>
         <h2 id="-api">Публичный API</h2>
         <table>
@@ -478,11 +490,11 @@
         <h2 id="-open-"><code>.open</code></h2>
         <p>Открытие созданной формы.</p>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
-$checkout
-.open();</code></pre>
+$checkout.open();</code></pre>
         <h2 id="-close-"><code>.close</code></h2>
         <p>Скрытие созданной формы</p>
-        <pre class="highlight js"><code>$checkout.close();</code></pre>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+$checkout.close();</code></pre>
         <h2 id="-on-"><code>.on</code></h2>
         <p>Подписка на события. Есть 2 варианта, на событие ошибки <code>yc_error</code> или событие успеха <code>yc_success</code>.</p>
         <table>
