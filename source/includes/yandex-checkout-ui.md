@@ -33,8 +33,6 @@ const $checkout = YandexCheckoutUI(123456);
 секретный токен на ружу! Это приватная информация, ни кто
 не должен о нем знать кроме вас.
 
-<aside class="warning">Не показывайте свой токен ни кому!</aside>
-
 После этого вы можете создать инстанс от YandexCheckoutUI и использовать
 **$checkout** для генерации токена по данным банковской карты.
 
@@ -57,6 +55,7 @@ const $checkout = YandexCheckoutUI(123456, {
 | language           | язык ответов                           | 'en' / 'ru'     | 'ru'                 |
 | domSelector        | селектор, куда будет отрендерена форма | string          | document.body        |
 | amount             | стоимость                              | number          | 0                    |
+| isRecurrent        | отрисовать на форме сообщение о том, что будут производиться рекуррентные платежи  | boolean          | false                    |
 
 > Возможные значения:
 
@@ -69,7 +68,10 @@ const $checkout = YandexCheckoutUI(123456, {
     domSelector: string ['document.body'],
     
     // стоимость, которую нужно показать на форме
-    amount: number ['0']
+    amount: number ['0'],
+    
+    // Будут производиться реруррентные платежи
+    isRecurrent: true [false]
 }
 ```
 

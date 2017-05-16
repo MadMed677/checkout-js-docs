@@ -44,7 +44,6 @@
         </blockquote>
         <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
           информация, ни кто не должен о нем знать кроме вас.</p>
-        <aside class="warning">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-a-name-yc-configuration-a-"><a name="yc-configuration">Конфигурация</a></h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
@@ -157,7 +156,7 @@
     <span class="hljs-attr">month</span>: <span class="hljs-string">'12'</span>,
     <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
 })
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+    .catch(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
         <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">400</span>) {
             <span class="hljs-comment">// validation_error</span>
             <span class="hljs-keyword">const</span> type = response.type;
@@ -404,7 +403,6 @@
         </blockquote>
         <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
           информация, ни кто не должен о нем знать кроме вас.</p>
-        <aside class="warning">Не показывайте свой токен ни кому!</aside>
         <p>После этого вы можете создать инстанс от YandexCheckoutUI и использовать <strong>$checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-">Конфигурация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>, {
@@ -441,6 +439,12 @@
               <td>number</td>
               <td>0</td>
             </tr>
+            <tr>
+              <td>isRecurrent</td>
+              <td>отрисовать на форме сообщение о том, что будут производиться рекуррентные платежи</td>
+              <td>boolean</td>
+              <td>false</td>
+            </tr>
           </tbody>
         </table>
         <blockquote>
@@ -454,7 +458,10 @@
     domSelector: string [<span class="hljs-string">'document.body'</span>],
 
     <span class="hljs-comment">// стоимость, которую нужно показать на форме</span>
-    amount: number [<span class="hljs-string">'0'</span>]
+    amount: number [<span class="hljs-string">'0'</span>],
+
+    <span class="hljs-comment">// Будут производиться реруррентные платежи</span>
+    isRecurrent: <span class="hljs-literal">true</span> [<span class="hljs-literal">false</span>]
 }</code></pre>
         <h2 id="-api">Публичный API</h2>
         <table>

@@ -31,8 +31,6 @@ const checkout = YandexCheckout(123456);
 создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная информация, ни кто
 не должен о нем знать кроме вас.
 
-<aside class="warning">Не показывайте свой токен ни кому!</aside>
-
 После этого вы можете создать инстанс от YandexCheckout и использовать **checkout** для генерации токена по данным банковской карты.
 
 
@@ -115,7 +113,7 @@ checkout.generate({
     month: '12',
     year: '20'
 })
-    .then(response => {
+    .catch(response => {
         if (response.status_code === 400) {
             // validation_error
             const type = response.type;
