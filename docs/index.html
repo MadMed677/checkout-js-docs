@@ -42,7 +42,7 @@
         <blockquote>
           <p>Где <strong>123456</strong> ваш секретный токен</p>
         </blockquote>
-        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
+        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен наружу! Это приватная
           информация, ни кто не должен о нем знать кроме вас.</p>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-a-name-yc-configuration-a-"><a name="yc-configuration">Конфигурация</a></h2>
@@ -141,7 +141,7 @@
 })
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
         <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">200</span>) {
-            <span class="hljs-keyword">const</span> { paymentToken } = respons;
+            <span class="hljs-keyword">const</span> { paymentToken } = response;
 
             <span class="hljs-comment">// eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...</span>
             <span class="hljs-keyword">return</span> paymentToken;
