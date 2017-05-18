@@ -68,7 +68,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>.generate</code></td>
+              <td><code>.tokenize</code></td>
               <td>Генерация токена</td>
               <td>Promise{Object}</td>
             </tr>
@@ -79,9 +79,9 @@
             </tr>
           </tbody>
         </table>
-        <h2 id="-generate-"><code>.generate</code></h2>
+        <h2 id="-tokenize-"><code>.tokenize</code></h2>
         <p>Используется для генерации токена.</p>
-        <pre class="highlight js"><code>checkout.generate({
+        <pre class="highlight js"><code>checkout.tokenize({
     <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4448'</span>,
     <span class="hljs-attr">cvc</span>: <span class="hljs-string">'123'</span>,
     <span class="hljs-attr">month</span>: <span class="hljs-string">'11'</span>,
@@ -133,7 +133,7 @@
         <blockquote>
           <p>Пример валидных данных:</p>
         </blockquote>
-        <pre class="highlight js"><code>checkout.generate({
+        <pre class="highlight js"><code>checkout.tokenize({
     <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4448'</span>,
     <span class="hljs-attr">cvc</span>: <span class="hljs-string">'123'</span>,
     <span class="hljs-attr">month</span>: <span class="hljs-string">'11'</span>,
@@ -150,7 +150,7 @@
         <blockquote>
           <p>Пример не валидных данных:</p>
         </blockquote>
-        <pre class="highlight js"><code>checkout.generate({
+        <pre class="highlight js"><code>checkout.tokenize({
     <span class="hljs-attr">number</span>: <span class="hljs-string">'4444 4444 4444 4441'</span>,
     <span class="hljs-attr">cvc</span>: <span class="hljs-string">'12'</span>,
     <span class="hljs-attr">month</span>: <span class="hljs-string">'12'</span>,

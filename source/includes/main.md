@@ -58,15 +58,15 @@ const checkout = YandexCheckout(123456, {
 
 | Название метода | Описание               | Возвращаемые значения |
 | --------------- | ---------------------- | --------------------- |
-| `.generate`     | Генерация токена       | Promise{Object}       |
+| `.tokenize`     | Генерация токена       | Promise{Object}       |
 | `.validate`     | Валидация данных карты | {Object} / Boolean    |
 
-## `.generate`
+## `.tokenize`
 
 Используется для генерации токена.
 
 ```js
-checkout.generate({
+checkout.tokenize({
     number: '4444 4444 4444 4448',
     cvc: '123',
     month: '11',
@@ -88,7 +88,7 @@ checkout.generate({
 > Пример валидных данных:
 
 ```js
-checkout.generate({
+checkout.tokenize({
     number: '4444 4444 4444 4448',
     cvc: '123',
     month: '11',
@@ -107,7 +107,7 @@ checkout.generate({
 > Пример не валидных данных:
 
 ```js
-checkout.generate({
+checkout.tokenize({
     number: '4444 4444 4444 4441',
     cvc: '12',
     month: '12',
