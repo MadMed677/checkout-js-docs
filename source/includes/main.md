@@ -10,7 +10,7 @@
 > Подключаем скрипт на страницу
 
 ```html
-<script src="https://ya.ru/cdn/yandex-checkout.min.js"></script>
+<script src="https://static.yandex.net/checkout/yandex-checkout.js"></script>
 ```
 
 Библиотека подключается только через CDN.
@@ -25,9 +25,9 @@
 const checkout = YandexCheckout(123456);
 ```
 
-> Где **123456** ваш секретный токен
+> Где **123456** ваш `merchant_id`
 
-Чтобы создать токен, вы должны авторизоваться к личном кабинете [Яндекс.Касса](https://ya.ru). После этого перейти в раздел
+Чтобы создать токен, вы должны авторизоваться к личном кабинете [Яндекс.Касса](https://kassa.yandex.ru). После этого перейти в раздел
 создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен наружу! Это приватная информация, ни кто
 не должен о нем знать кроме вас.
 
@@ -59,7 +59,7 @@ const checkout = YandexCheckout(123456, {
 | Название метода | Описание               | Возвращаемые значения |
 | --------------- | ---------------------- | --------------------- |
 | `.tokenize`     | Генерация токена       | Promise{Object}       |
-| `.validate`     | Валидация данных карты | {Object} / Boolean    |
+| `.validate`     | Валидация данных карты | {Object}              |
 
 ## `.tokenize`
 
@@ -79,7 +79,6 @@ checkout.tokenize({
 | Название параметра  | Описание                                 | Тип      | Валидация                        |
 | ------------------- | ---------------------------------------- | -------- | -------------------------------- |
 | `number*`           | Номер банковской карты                   | {String} | Только числа. Длина 16 символов  |
-| `fio`               | Имя владельца карты                      | {String} |                                  |
 | `cvc*`              | 3 или 4 значный код на обратной стороне  | {String} | Только числа. Длина 3, 4 символа |
 | `month*`            | Месяц истечения карты                    | {String} | Только числа. Длина 2 символа    |
 | `year*`             | Год истечения карты                      | {String} | Только числа. Длина 2 символа    |
@@ -95,8 +94,8 @@ checkout.tokenize({
     year: '20'
 })
     .then(response => {
-        if (response.status_code === 200) {
-            const { paymentToken } = response;
+        if (response.status === 'success') {
+            const { paymentToken } = response.data;
 
             // eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...
             return paymentToken;
@@ -113,10 +112,10 @@ checkout.tokenize({
     month: '12',
     year: '20'
 })
-    .catch(response => {
-        if (response.status_code === 400) {
+    .then(response => {
+        if (response.status === 'error') {
             // validation_error
-            const type = response.type;
+            const { type } = response.error;
 
             /*
                 [
@@ -130,8 +129,7 @@ checkout.tokenize({
                     }
                 ]
             */
-            // За большими подробностями ошибок смотрите в секцию ошибок
-            const params = response.params;
+            const { params } = response.error;
 
             return response;
         }

@@ -35,15 +35,15 @@
         <blockquote>
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
-        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.yandex.net/checkout/yandex-checkout.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>Библиотека подключается только через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckout</strong></p>
         <h2 id="-a-name-yc-authentication-a-"><a name="yc-authentication">Аудентификация</a></h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
-          <p>Где <strong>123456</strong> ваш секретный токен</p>
+          <p>Где <strong>123456</strong> ваш <code>merchant_id</code></p>
         </blockquote>
-        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен наружу! Это приватная
-          информация, ни кто не должен о нем знать кроме вас.</p>
+        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://kassa.yandex.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен наружу! Это
+          приватная информация, ни кто не должен о нем знать кроме вас.</p>
         <p>После этого вы можете создать инстанс от YandexCheckout и использовать <strong>checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-a-name-yc-configuration-a-"><a name="yc-configuration">Конфигурация</a></h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> checkout = YandexCheckout(<span class="hljs-number">123456</span>, {
@@ -75,7 +75,7 @@
             <tr>
               <td><code>.validate</code></td>
               <td>Валидация данных карты</td>
-              <td>{Object} / Boolean</td>
+              <td>{Object}</td>
             </tr>
           </tbody>
         </table>
@@ -103,12 +103,6 @@
               <td>Номер банковской карты</td>
               <td>{String}</td>
               <td>Только числа. Длина 16 символов</td>
-            </tr>
-            <tr>
-              <td><code>fio</code></td>
-              <td>Имя владельца карты</td>
-              <td>{String}</td>
-              <td></td>
             </tr>
             <tr>
               <td><code>cvc*</code></td>
@@ -140,8 +134,8 @@
     <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
 })
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
-        <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">200</span>) {
-            <span class="hljs-keyword">const</span> { paymentToken } = response;
+        <span class="hljs-keyword">if</span> (response.status === <span class="hljs-string">'success'</span>) {
+            <span class="hljs-keyword">const</span> { paymentToken } = response.data;
 
             <span class="hljs-comment">// eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc...</span>
             <span class="hljs-keyword">return</span> paymentToken;
@@ -156,10 +150,10 @@
     <span class="hljs-attr">month</span>: <span class="hljs-string">'12'</span>,
     <span class="hljs-attr">year</span>: <span class="hljs-string">'20'</span>
 })
-    .catch(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
-        <span class="hljs-keyword">if</span> (response.status_code === <span class="hljs-number">400</span>) {
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (response.status === <span class="hljs-string">'error'</span>) {
             <span class="hljs-comment">// validation_error</span>
-            <span class="hljs-keyword">const</span> type = response.type;
+            <span class="hljs-keyword">const</span> { type } = response.error;
 
             <span class="hljs-comment">/*
                 [
@@ -173,54 +167,69 @@
                     }
                 ]
             */</span>
-            <span class="hljs-comment">// За большими подробностями ошибок смотрите в секцию ошибок</span>
-            <span class="hljs-keyword">const</span> params = response.params;
+            <span class="hljs-keyword">const</span> { params } = response.error;
 
             <span class="hljs-keyword">return</span> response;
         }
     });</code></pre>
         <h2 id="-a-name-yc-errors-a-"><a name="yc-errors">Ошибки</a></h2>
+        <p>Если произошла ошибка со стороны мерчанта (не передан merchant_id или подгрузили скрипт не с того ресурса) то ошибка будет во время инициализации. Обработать такую ошибку можно через конструкцию try/catch. Такие ошибки автоматически будут сыпаться
+          в консоль ошибок.</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> checkout = YandexCheckout(); <span class="hljs-comment">// не передан merchant_id</span>
+} <span class="hljs-keyword">catch</span>(error) {
+    <span class="hljs-comment">// формат ответа смотрите в разделе "ошибки"</span>
+}</code></pre>
         <blockquote>
           <p>Формат выдачи ошибок</p>
         </blockquote>
         <pre class="highlight js"><code>{
-    <span class="hljs-attr">type</span>: string,
-    <span class="hljs-attr">message</span>: ?string,
-    <span class="hljs-attr">status_code</span>: number,
-    <span class="hljs-attr">code</span>: ?string,
-    <span class="hljs-attr">params</span>: <span class="hljs-built_in">Array</span>&lt;{
-        <span class="hljs-attr">code</span>: string,
-        <span class="hljs-attr">message</span>: string
-    }&gt;
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'error'</span>,
+    <span class="hljs-attr">error</span>: {
+        <span class="hljs-attr">type</span>: string,
+        <span class="hljs-attr">message</span>: ?string,
+        <span class="hljs-attr">status_code</span>: number,
+        <span class="hljs-attr">code</span>: ?string,
+        <span class="hljs-attr">params</span>: <span class="hljs-built_in">Array</span>&lt;{
+            <span class="hljs-attr">code</span>: string,
+            <span class="hljs-attr">message</span>: string
+        }&gt;
+    }
 }</code></pre>
         <blockquote>
           <p>Пример 1. Произошла ошибка в подключении к серверу</p>
         </blockquote>
         <pre class="highlight js"><code>{
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'api_connection_error'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Ошибка в подключении сервера'</span>,
-    <span class="hljs-attr">status_code</span>: <span class="hljs-number">402</span>,
-    <span class="hljs-attr">code</span>: <span class="hljs-string">'processing_error'</span>,
-    <span class="hljs-attr">params</span>: []
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'error'</span>,
+    <span class="hljs-attr">error</span>: {
+        <span class="hljs-attr">type</span>: <span class="hljs-string">'api_connection_error'</span>,
+        <span class="hljs-attr">message</span>: <span class="hljs-string">'Ошибка в подключении сервера'</span>,
+        <span class="hljs-attr">status_code</span>: <span class="hljs-number">402</span>,
+        <span class="hljs-attr">code</span>: <span class="hljs-string">'processing_error'</span>,
+        <span class="hljs-attr">params</span>: []
+    }
 }</code></pre>
         <blockquote>
           <p>Пример 2. Произошла ошибка валидации</p>
         </blockquote>
         <pre class="highlight js"><code>{
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'validation_error'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-literal">undefined</span>,
-    <span class="hljs-attr">status_code</span>: <span class="hljs-number">400</span>,
-    <span class="hljs-attr">code</span>: <span class="hljs-literal">undefined</span>,
-    <span class="hljs-attr">params</span>: [
-        {
-            <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_number'</span>,
-            <span class="hljs-attr">message</span>: <span class="hljs-string">'Неверный номер карты'</span>
-        },
-        {
-            <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_expiry_month'</span>,
-            <span class="hljs-attr">message</span>: <span class="hljs-string">'Невалидное значение месяца'</span>
-        }
-    ]
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'error'</span>,
+    <span class="hljs-attr">error</span>: {
+        <span class="hljs-attr">type</span>: <span class="hljs-string">'validation_error'</span>,
+        <span class="hljs-attr">message</span>: <span class="hljs-literal">undefined</span>,
+        <span class="hljs-attr">status_code</span>: <span class="hljs-number">400</span>,
+        <span class="hljs-attr">code</span>: <span class="hljs-literal">undefined</span>,
+        <span class="hljs-attr">params</span>: [
+            {
+                <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_number'</span>,
+                <span class="hljs-attr">message</span>: <span class="hljs-string">'Неверный номер карты'</span>
+            },
+            {
+                <span class="hljs-attr">code</span>: <span class="hljs-string">'invalid_expiry_month'</span>,
+                <span class="hljs-attr">message</span>: <span class="hljs-string">'Невалидное значение месяца'</span>
+            }
+        ]
+    }
 }</code></pre>
         <h3 id="-">Статус коды ошибок</h3>
         <table>
@@ -338,20 +347,26 @@
           <p>Формат выдачи успешно запроса</p>
         </blockquote>
         <pre class="highlight js"><code>{
-    <span class="hljs-attr">type</span>: string,
-    <span class="hljs-attr">message</span>: ?string,
-    <span class="hljs-attr">status_code</span>: number,
-    <span class="hljs-attr">response</span>: object
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'success'</span>,
+    <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">type</span>: string,
+        <span class="hljs-attr">message</span>: ?string,
+        <span class="hljs-attr">status_code</span>: number,
+        <span class="hljs-attr">response</span>: object
+    }
 }</code></pre>
         <blockquote>
           <p>Пример. Токен успешно получен</p>
         </blockquote>
         <pre class="highlight js"><code>{
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Токен для оплаты создан'</span>,
-    <span class="hljs-attr">status_code</span>: <span class="hljs-number">200</span>,
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'payment_token_created'</span>,
-    <span class="hljs-attr">response</span>: {
-        <span class="hljs-attr">paymentToken</span>: <span class="hljs-string">'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'</span>
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'success'</span>,
+    <span class="hljs-attr">data</span>: {
+        <span class="hljs-attr">message</span>: <span class="hljs-string">'Токен для оплаты создан'</span>,
+        <span class="hljs-attr">status_code</span>: <span class="hljs-number">200</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-string">'payment_token_created'</span>,
+        <span class="hljs-attr">response</span>: {
+            <span class="hljs-attr">paymentToken</span>: <span class="hljs-string">'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'</span>
+        }
     }
 }</code></pre>
         <h3 id="-">Статус коды успеха</h3>
@@ -394,15 +409,15 @@
         <blockquote>
           <p>Подключаем скрипт на страницу</p>
         </blockquote>
-        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://ya.ru/cdn/yandex-checkout-ui.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre class="highlight html"><code><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.yandex.net/checkout-ui/yandex-checkout-ui.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>Библиотека подключается <strong>только</strong> через CDN. Чтобы подключить ее, нужно подключить скрипт из CDN, после этого в глобальной области видимости библиотека будет доступна под именем <strong>YandexCheckoutUI</strong></p>
         <h2 id="-">Аудентификация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);</code></pre>
         <blockquote>
-          <p>Где <strong>123456</strong> ваш секретный токен</p>
+          <p>Где <strong>123456</strong> ваш <code>merchant_id</code></p>
         </blockquote>
-        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://ya.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу! Это приватная
-          информация, ни кто не должен о нем знать кроме вас.</p>
+        <p>Чтобы создать токен, вы должны авторизоваться к личном кабинете <a href="https://kassa.yandex.ru">Яндекс.Касса</a>. После этого перейти в раздел создания токена для вашего магазина. Не в коем случае не выставляйте ваш секретный токен на ружу!
+          Это приватная информация, ни кто не должен о нем знать кроме вас.</p>
         <p>После этого вы можете создать инстанс от YandexCheckoutUI и использовать <strong>$checkout</strong> для генерации токена по данным банковской карты.</p>
         <h2 id="-">Конфигурация</h2>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>, {
@@ -428,12 +443,6 @@
               <td>&#39;ru&#39;</td>
             </tr>
             <tr>
-              <td>domSelector</td>
-              <td>селектор, куда будет отрендерена форма</td>
-              <td>string</td>
-              <td>document.body</td>
-            </tr>
-            <tr>
               <td>amount</td>
               <td>стоимость</td>
               <td>number</td>
@@ -453,9 +462,6 @@
         <pre class="highlight js"><code>{
     <span class="hljs-comment">// язык вывода ответов</span>
     language: string (<span class="hljs-string">'en'</span> | <span class="hljs-string">'ru'</span>) [<span class="hljs-string">'ru'</span>],
-
-    <span class="hljs-comment">// селектор, куда будет отрендерена форма с оплатой</span>
-    domSelector: string [<span class="hljs-string">'document.body'</span>],
 
     <span class="hljs-comment">// стоимость, которую нужно показать на форме</span>
     amount: number [<span class="hljs-string">'0'</span>],
@@ -492,14 +498,44 @@
               <td>&#39;yc_error&#39;, &#39;yc_success&#39;</td>
               <td>{void}</td>
             </tr>
+            <tr>
+              <td><code>.showLantern</code></td>
+              <td>Показать фонарь</td>
+              <td>text {string}</td>
+              <td>{void}</td>
+            </tr>
+            <tr>
+              <td><code>.hideLantern</code></td>
+              <td>Скрыть фонарь</td>
+              <td></td>
+              <td>{void}</td>
+            </tr>
+            <tr>
+              <td><code>.showLantern</code></td>
+              <td>Переключает состояние фонаря</td>
+              <td>text {string}</td>
+              <td>{void}</td>
+            </tr>
+            <tr>
+              <td><code>.chargeSuccessful</code></td>
+              <td>Успешный ответ от APIv3</td>
+              <td>text {string}</td>
+              <td>{void}</td>
+            </tr>
+            <tr>
+              <td><code>.chargeFailful</code></td>
+              <td>Ошибка от APIv3</td>
+              <td>text {string}</td>
+              <td>{void}</td>
+            </tr>
           </tbody>
         </table>
         <h2 id="-open-"><code>.open</code></h2>
-        <p>Открытие созданной формы.</p>
+        <p>Открытие формы.</p>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 $checkout.open();</code></pre>
         <h2 id="-close-"><code>.close</code></h2>
-        <p>Скрытие созданной формы</p>
+        <p>Скрытие формы</p>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 $checkout.close();</code></pre>
         <h2 id="-on-"><code>.on</code></h2>
@@ -531,23 +567,25 @@ $checkout.close();</code></pre>
         <pre class="highlight js"><code>$checkout.on(<span class="hljs-string">'yc_error'</span>, response =&gt; {
     <span class="hljs-comment">/*
     {
-        type: 'validation_error',
-        message: undefined,
-        status_code: 400,
-        code: undefined,
-        params: [
-            {
-                code: 'invalid_number',
-                message: 'Неверный номер карты'
-            },
-            {
-                code: 'invalid_expiry_month',
-                message: 'Невалидное значение месяца'
-            }
-        ]
+        status: 'error',
+        error: {
+            type: 'validation_error',
+            message: undefined,
+            status_code: 400,
+            code: undefined,
+            params: [
+                {
+                    code: 'invalid_number',
+                    message: 'Неверный номер карты'
+                },
+                {
+                    code: 'invalid_expiry_month',
+                    message: 'Невалидное значение месяца'
+                }
+            ]
+        }
     }
     */</span>
-    <span class="hljs-built_in">console</span>.log(response);
 });</code></pre>
         <blockquote>
           <p>Пример с успехом</p>
@@ -555,15 +593,63 @@ $checkout.close();</code></pre>
         <pre class="highlight js"><code>$checkout.on(<span class="hljs-string">'yc_success'</span>, response =&gt; {
     <span class="hljs-comment">/*
     {
-        message: 'Токен для оплаты создан',
-        status_code: 200,
-        type: 'payment_token_created',
-        response: {
-            paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+        status: 'success',
+        data: {
+            message: 'Токен для оплаты создан',
+            status_code: 200,
+            type: 'payment_token_created',
+            response: {
+                paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+            }
         }
     }
     */</span>
     <span class="hljs-built_in">console</span>.log(response);
+});</code></pre>
+        <h2 id="-showlantern-"><code>showLantern</code></h2>
+        <p>Показать фонарь с ошибкой над формой (если произошла какая-нибудь ошибка при запросе на backend)</p>
+        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+$checkout.showLantern(<span class="hljs-string">'Текст ошибки'</span>);</code></pre>
+        <h2 id="-hidelantern-"><code>hideLantern</code></h2>
+        <p>Скрыть фонарь с ошибкой</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckout(<span class="hljs-number">123456</span>);
+$checkout.hideLantern();</code></pre>
+        <h2 id="-togglelantern-"><code>toggleLantern</code></h2>
+        <p>Открывает/скрывает фонарь с ошибкой</p>
+        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+$checkout.toggleLantern(<span class="hljs-string">'Текст ошибки'</span>);</code></pre>
+        <h2 id="-chargesuccessful-"><code>chargeSuccessful</code></h2>
+        <p>Ответ от APIv3 успешен. После вызова данного метода, будет закрыт фонарь (если тот открыт) после этого закроется форма.</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+
+<span class="hljs-comment">// открываем форму</span>
+$checkout.open();
+
+<span class="hljs-comment">// Токен успешно сгенерирован</span>
+$checkout.on(<span class="hljs-string">'yc_success'</span>, () =&gt; {
+    <span class="hljs-comment">// запрос на бэкенд</span>
+    <span class="hljs-comment">// ...</span>
+
+    <span class="hljs-comment">// Если оплата прошла успешно, то вызываем метод</span>
+    $checkout.chargeSuccessful();
+});</code></pre>
+        <h2 id="-chargefailful-"><code>chargeFailful</code></h2>
+        <p>Ответ от APIv3 не успешен. После вызова данного метода будет открыт фонарь с ошибкой.</p>
+        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
+
+<span class="hljs-comment">// открываем форму</span>
+$checkout.open();
+
+<span class="hljs-comment">// Токен успешно создан</span>
+$checkout.on(<span class="hljs-string">'yc_success'</span>, () =&gt; {
+    <span class="hljs-comment">// запрос на бэкенд</span>
+    <span class="hljs-comment">// ...</span>
+
+    <span class="hljs-comment">// Оплата не прошла</span>
+    $checkout.chargeFailful();
 });</code></pre> </div>
       <div class="dark-box">
         <div class="lang-selector"> </div>

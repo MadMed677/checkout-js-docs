@@ -4,10 +4,13 @@
 
 ```js
 {
-    type: string,
-    message: ?string,
-    status_code: number,
-    response: object
+    status: 'success',
+    data: {
+        type: string,
+        message: ?string,
+        status_code: number,
+        response: object
+    }
 }
 ```
 
@@ -15,11 +18,14 @@
 
 ```js
 {
-    message: 'Токен для оплаты создан',
-    status_code: 200,
-    type: 'payment_token_created',
-    response: {
-        paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+    status: 'success',
+    data: {
+        message: 'Токен для оплаты создан',
+        status_code: 200,
+        type: 'payment_token_created',
+        response: {
+            paymentToken: 'eyJlbmNyeXB0ZWRNZXNzYWdlIjoiWlc1amNubHdkR1ZrVFdWemMyRm5aUT09IiwiZXBoZW1lcmFsUHVibGljS2V5IjoiWlhCb1pXMWxjbUZzVUhWaWJHbGpTMlY1IiwidGFnIjoiYzJsbmJtRjBkWEpsIn0K'
+        }
     }
 }
 ```

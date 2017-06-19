@@ -1,17 +1,32 @@
 ## <a name="yc-errors">Ошибки</a>
 
+Если произошла ошибка со стороны мерчанта (не передан merchant_id или подгрузили скрипт не с того ресурса)
+то ошибка будет во время инициализации. Обработать такую ошибку можно через конструкцию try/catch. Такие ошибки автоматически
+будут сыпаться в консоль ошибок.
+
+```js
+try {
+    const checkout = YandexCheckout(); // не передан merchant_id
+} catch(error) {
+    // формат ответа смотрите в разделе "ошибки"
+}
+```
+
 > Формат выдачи ошибок
 
 ```js
 {
-    type: string,
-    message: ?string,
-    status_code: number,
-    code: ?string,
-    params: Array<{
-        code: string,
-        message: string
-    }>
+    status: 'error',
+    error: {
+        type: string,
+        message: ?string,
+        status_code: number,
+        code: ?string,
+        params: Array<{
+            code: string,
+            message: string
+        }>
+    }
 }
 ```
 
@@ -19,11 +34,14 @@
 
 ```js
 {
-    type: 'api_connection_error',
-    message: 'Ошибка в подключении сервера',
-    status_code: 402,
-    code: 'processing_error',
-    params: []
+    status: 'error',
+    error: {
+        type: 'api_connection_error',
+        message: 'Ошибка в подключении сервера',
+        status_code: 402,
+        code: 'processing_error',
+        params: []
+    }
 }
 ```
 
@@ -32,20 +50,23 @@
 
 ```js
 {
-    type: 'validation_error',
-    message: undefined,
-    status_code: 400,
-    code: undefined,
-    params: [
-        {
-            code: 'invalid_number',
-            message: 'Неверный номер карты'
-        },
-        {
-            code: 'invalid_expiry_month',
-            message: 'Невалидное значение месяца'
-        }
-    ]
+    status: 'error',
+    error: {
+        type: 'validation_error',
+        message: undefined,
+        status_code: 400,
+        code: undefined,
+        params: [
+            {
+                code: 'invalid_number',
+                message: 'Неверный номер карты'
+            },
+            {
+                code: 'invalid_expiry_month',
+                message: 'Невалидное значение месяца'
+            }
+        ]
+    }
 }
 ```
 
