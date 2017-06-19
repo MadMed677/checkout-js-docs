@@ -608,7 +608,22 @@ $checkout.close();</code></pre>
 });</code></pre>
         <h2 id="-showlantern-"><code>showLantern</code></h2>
         <p>Показать фонарь с ошибкой над формой (если произошла какая-нибудь ошибка при запросе на backend)</p>
-        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название параметра</th>
+              <th>Тип</th>
+              <th>Описание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>text</td>
+              <td>string</td>
+              <td>Текст ошибки</td>
+            </tr>
+          </tbody>
+        </table>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 $checkout.showLantern(<span class="hljs-string">'Текст ошибки'</span>);</code></pre>
         <h2 id="-hidelantern-"><code>hideLantern</code></h2>
@@ -617,7 +632,22 @@ $checkout.showLantern(<span class="hljs-string">'Текст ошибки'</span>
 $checkout.hideLantern();</code></pre>
         <h2 id="-togglelantern-"><code>toggleLantern</code></h2>
         <p>Открывает/скрывает фонарь с ошибкой</p>
-        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название параметра</th>
+              <th>Тип</th>
+              <th>Описание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>text</td>
+              <td>string</td>
+              <td>Текст ошибки</td>
+            </tr>
+          </tbody>
+        </table>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 $checkout.toggleLantern(<span class="hljs-string">'Текст ошибки'</span>);</code></pre>
         <h2 id="-chargesuccessful-"><code>chargeSuccessful</code></h2>
@@ -637,7 +667,22 @@ $checkout.on(<span class="hljs-string">'yc_success'</span>, () =&gt; {
 });</code></pre>
         <h2 id="-chargefailful-"><code>chargeFailful</code></h2>
         <p>Ответ от APIv3 не успешен. После вызова данного метода будет открыт фонарь с ошибкой.</p>
-        <p>| Название параметра | Тип | Описание | | text | string | Текст ошибки |</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Название параметра</th>
+              <th>Тип</th>
+              <th>Описание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>text</td>
+              <td>string</td>
+              <td>Текст ошибки</td>
+            </tr>
+          </tbody>
+        </table>
         <pre class="highlight js"><code><span class="hljs-keyword">const</span> $checkout = YandexCheckoutUI(<span class="hljs-number">123456</span>);
 
 <span class="hljs-comment">// открываем форму</span>
